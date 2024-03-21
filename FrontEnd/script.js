@@ -55,6 +55,7 @@ async function getProjects() {
       } else if (e.target === btnHotels) {
         console.log("hotels & restaurants");
       } else {
+        console.log("All");
       }
     });
   }

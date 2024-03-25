@@ -1,6 +1,7 @@
 const response = await fetch("http://localhost:5678/api/works");
 const projects = await response.json();
 
+
 // ========== GENERATION CARDS PROJECTS ========== //
 
 const generateCards= (projects) => {
@@ -49,28 +50,34 @@ const generateCards= (projects) => {
       sectionFilters.appendChild(btnObjects);
       sectionFilters.appendChild(btnApparts);
       sectionFilters.appendChild(btnHotels);
+      
 // ========== FILTERS FUNCTIONS ========== //
 
-  const btnsFilters = document.querySelectorAll("button");
+const btnsFilters = document.querySelectorAll("button");
+  
   for (let i = 0; i < btnsFilters.length; i++) {
     const btn = btnsFilters[i];
+
       btn.addEventListener("click", (e) => {
           if (e.target === btnObjects) {
         const objectsFilter = projects.filter(function (project) {
           return project.category.name === "Objets";
         });
+            
         document.querySelector(".gallery").innerHTML = "";
         generateCards(objectsFilter);
       } else if (e.target === btnApparts) {
         const appartsFilter = projects.filter(function (project) {
           return project.category.name === "Appartements";
         });
+            
         document.querySelector(".gallery").innerHTML = "";
         generateCards(appartsFilter);
       } else if (e.target === btnHotels) {
         const hotelsFilter = projects.filter(function (project) {
           return project.category.name === "Hotels & restaurants";
         });
+            
         document.querySelector(".gallery").innerHTML = "";
         generateCards(hotelsFilter);
           } else {
@@ -79,4 +86,5 @@ const generateCards= (projects) => {
       }
     });
   }
+
 generateCards(projects);

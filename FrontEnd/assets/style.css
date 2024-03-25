@@ -73,6 +73,7 @@ table {
 body {
 	max-width: 1140px;
 	margin: auto;
+		padding: 0 50px;
 	font-family: 'Work Sans';
 	font-size: 14px;
 
@@ -123,13 +124,19 @@ nav li {
 	font-size: 1.2em;
 }
 
-
-li:hover {
+li:hover{
 	color: var(--logoColor);
 }
+
+.active{
+	font-weight: 800;
+	background: teal;
+}
+
 a{
 	text-decoration: none;
 	color: inherit;
+	cursor: pointer;
 }
 
 #introduction {
@@ -263,13 +270,15 @@ input[type="submit"] {
 	width: 180px;
 	text-align: center;
 	border-radius: 60px;
+	cursor: pointer;
 }
 footer{
 	background: var(--white);
+	height: 60px;
 
 }
+
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
 }

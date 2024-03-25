@@ -1,6 +1,5 @@
 const response = await fetch("http://localhost:5678/api/works");
 const projects = await response.json();
-console.log(projects);
 
 // ========== GENERATION CARDS PROJECTS ========== //
 
@@ -60,20 +59,24 @@ const generateCards= (projects) => {
         const objectsFilter = projects.filter(function (project) {
           return project.category.name === "Objets";
         });
+        document.querySelector(".gallery").innerHTML = "";
         generateCards(objectsFilter);
       } else if (e.target === btnApparts) {
         const appartsFilter = projects.filter(function (project) {
           return project.category.name === "Appartements";
         });
+        document.querySelector(".gallery").innerHTML = "";
         generateCards(appartsFilter);
       } else if (e.target === btnHotels) {
         const hotelsFilter = projects.filter(function (project) {
           return project.category.name === "Hotels & restaurants";
         });
+        document.querySelector(".gallery").innerHTML = "";
         generateCards(hotelsFilter);
-      } else {
+          } else {
+        document.querySelector(".gallery").innerHTML = "";
         generateCards(projects);
       }
     });
   }
-
+generateCards(projects);

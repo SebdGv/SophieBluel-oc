@@ -35,5 +35,13 @@
 }
 
 #login p:hover{
-    color: var(--logoColor);
+    color: var(--logoColor);    
+}
+.hidden-error{
+    margin-top: 15px;
+    opacity: 0;
+}
+.error{
+    opacity: 1;
+    color: red;
 }

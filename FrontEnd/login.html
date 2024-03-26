@@ -33,12 +33,13 @@
     <main>
       <section id="login">
         <h2>Login</h2>
-        <form action="#" method="">
+        <form  method="POST" id="form">
           <label for="email">Email</label>
           <input type="email" name="email" id="email" />
           <label for="mot de passe">Mot de passe</label>
-          <input type="password" />
-          <input type="submit" value="Se connecter" />
+          <input type="password" id="password" />
+          <div class="hidden-error" id="error">Incorrect E-mail or password</div>
+          <input type="submit" value="Se connecter" id="send"/>
         </form>
         <a href=""><p>Mot de passe oublié</p></a>
       </section>
@@ -50,6 +51,6 @@
         </ul>
       </nav>
     </footer>
-
+<script src="login.js"></script>
   </body>
 </html>

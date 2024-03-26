@@ -89,3 +89,7 @@ const generateCards= (projects) => {
 }
 
 generateCards(projects);
+
+
+// ========== Edition mode  ========== //
+

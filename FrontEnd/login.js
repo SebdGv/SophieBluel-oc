@@ -19,17 +19,17 @@ form.addEventListener("submit", async (e) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
-    // mode: "cors",
-    // credentials: "same-origin",
   };
 
-  let res = await fetch("http://localhost:5678/api/users/login", init)
-  let result = await res.json()
+  let res = await fetch("http://localhost:5678/api/users/login", init);
+  let result = await res.json();
 
-      if (result.success) {
+      if (result.token) {
         localStorage.setItem("token", result.token);
         console.log("connectoin reussie");
-      } else {
+        window.location.href = "index.html";
+
+      } else if (!result.token){
         spanError.classList.add("error");
         setTimeout(() => {
           spanError.classList.remove("error");

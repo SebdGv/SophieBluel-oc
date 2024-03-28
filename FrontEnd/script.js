@@ -1,63 +1,59 @@
 const response = await fetch("http://localhost:5678/api/works");
 const projects = await response.json();
+// ========== CREATION FILTERS BUTTONS & FILTERS FUNCTION ========== //
 
-// ========== CREATION FILTERS BUTTONS ========== //
+const generateBtnsFilter = async () => {
+  const res = await fetch("http://localhost:5678/api/categories");
+  const categories = await res.json();
 
-      const sectionFilters = document.querySelector(".btn-filters");
-
-      const btnAll = document.createElement("button");
-      const btnObjects = document.createElement("button");
-      const btnApparts = document.createElement("button");
-      const btnHotels = document.createElement("button");
-
-      btnAll.innerText = "Tous";       
-      btnObjects.innerText = "Objets";
-      btnApparts.innerText = "Appartements";
-      btnHotels.innerText = "Hôtels & restaurants";
-
-      sectionFilters.appendChild(btnAll);
-      sectionFilters.appendChild(btnObjects);
-      sectionFilters.appendChild(btnApparts);
-      sectionFilters.appendChild(btnHotels);
-      
-// ========== FILTERS FUNCTIONS ========== //
-
-const btnsFilters = document.querySelectorAll("button");
+  const sectionFilters = document.querySelector(".btn-filters");
   
-  for (let i = 0; i < btnsFilters.length; i++) {
-    const btn = btnsFilters[i];
+  const btnFilter = document.createElement("button");
+  btnFilter.className = "filter";
+  btnFilter.dataset.id = 0;
+  btnFilter.innerText = "Tous";
+  sectionFilters.appendChild(btnFilter);
+  
+  for (let i = 0; i < categories.length; i++) {
+    const filter = categories[i];
+    const btnFilter = document.createElement("button");
+    btnFilter.className = "filter";
+    btnFilter.dataset.id = filter.id;
+    btnFilter.innerText = filter.name;
 
+    sectionFilters.appendChild(btnFilter);
+  }  
+
+  const btnsFilter = document.querySelectorAll("button");
+  let id;
+  for (let i = 0; i < btnsFilter.length; i++) {
+    const btn = btnsFilter[i];
+ 
     btn.addEventListener("click", (e) => {
-   
-      if (e.target === btnObjects) {
-        const objectsFilter = projects.filter(function (project) {
-          return project.category.name === "Objets";
-        });
-        document.querySelector(".gallery").innerHTML = "";
-            generateCards(objectsFilter);
+      const id = e.target.dataset.id;
+      const filteredProjects = projects.filter(function (project) {
+          return project.categoryId == id;
+      });
 
-      } else if (e.target === btnApparts) {
-        const appartsFilter = projects.filter(function (project) {
-          return project.category.name === "Appartements";
-        });
-        document.querySelector(".gallery").innerHTML = "";
-            generateCards(appartsFilter);
-
-      } else if (e.target === btnHotels) {
-        const hotelsFilter = projects.filter(function (project) {
-          return project.category.name === "Hotels & restaurants";
-        });
-        document.querySelector(".gallery").innerHTML = "";
-        generateCards(hotelsFilter);
-
-      } else {
-        document.querySelector(".gallery").innerHTML = "";
-        generateCards(projects);
+      switch (id) {
+        case "1":
+          document.querySelector(".gallery").innerHTML = "";
+          generateCards(filteredProjects);
+          break;
+        case "2":
+          document.querySelector(".gallery").innerHTML = "";
+          generateCards(filteredProjects);
+          break
+        case "3":
+          document.querySelector(".gallery").innerHTML = "";
+          generateCards(filteredProjects);
+          break
+        default:
+          document.querySelector(".gallery").innerHTML = "";
+          generateCards(projects);
       }
-    });
-
-}  
-  
+})  }
+}
 
 // ========== GENERATION CARDS PROJECTS ========== //
 
@@ -68,7 +64,6 @@ const generateCards= (projects) => {
         }
         for (let i = 0; i < projects.length; i++) {
           const project = projects[i];
-          
               const sectionProjects = document.querySelector(".gallery");
                
               const viewProject = document.createElement("figure");
@@ -84,10 +79,12 @@ const generateCards= (projects) => {
               sectionProjects.appendChild(viewProject);
               viewProject.appendChild(imageZoom);
               imageZoom.appendChild(imageProject);
-              viewProject.appendChild(captionProject);
+          viewProject.appendChild(captionProject);
+          
     }
 }
 
+generateBtnsFilter();
 generateCards(projects);
 
 

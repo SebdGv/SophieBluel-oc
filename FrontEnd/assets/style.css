@@ -141,7 +141,7 @@ a{
 }
 
 .editBanner{
-	display: flex;
+	display: none;
 	justify-content: center;
 	align-items: center;
 	height: 59px;
@@ -150,7 +150,7 @@ a{
 	top: 0;
 	z-index: 1;
 	gap:11px;
-
+	
 	background: var(--black);
 	color: var(--white);
 	font-size: 16px;
@@ -292,7 +292,6 @@ input[type="submit"] {
 footer{
 	background: var(--white);
 	height: 60px;
-
 }
 
 footer nav ul {

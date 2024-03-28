@@ -22,8 +22,8 @@ form.addEventListener("submit", async (e) => {
 
   await fetch("http://localhost:5678/api/users/login", init)
     .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
+    .then((data) => {
+      if (data.success) {
         console.log("connectoin reussie");
       } else {
         spanError.classList.add("error");

@@ -14,23 +14,30 @@ form.addEventListener("submit", async (e) => {
 
   const init = {
     method: "POST",
-    headers: { "Content-Type": "application/json", "accept": "application / json" },
+    headers: {
+      "accept": "application / json",
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
-    mode: "cors",
-    credentials: "same-origin",
+    // mode: "cors",
+    // credentials: "same-origin",
   };
 
-  await fetch("http://localhost:5678/api/users/login", init)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
+  let res = await fetch("http://localhost:5678/api/users/login", init)
+  let result = await res.json()
+
+      if (result.success) {
+        localStorage.setItem("token", result.token);
         console.log("connectoin reussie");
       } else {
         spanError.classList.add("error");
         setTimeout(() => {
           spanError.classList.remove("error");
         }, 4000);
-      }
-    });
+  }
 });
+
+
+
+
 

@@ -1,59 +1,5 @@
 const response = await fetch("http://localhost:5678/api/works");
 const projects = await response.json();
-// ========== CREATION FILTERS BUTTONS & FILTERS FUNCTION ========== //
-
-const generateBtnsFilter = async () => {
-  const res = await fetch("http://localhost:5678/api/categories");
-  const categories = await res.json();
-
-  const sectionFilters = document.querySelector(".btn-filters");
-  
-  const btnFilter = document.createElement("button");
-  btnFilter.className = "filter";
-  btnFilter.dataset.id = 0;
-  btnFilter.innerText = "Tous";
-  sectionFilters.appendChild(btnFilter);
-  
-  for (let i = 0; i < categories.length; i++) {
-    const filter = categories[i];
-    const btnFilter = document.createElement("button");
-    btnFilter.className = "filter";
-    btnFilter.dataset.id = filter.id;
-    btnFilter.innerText = filter.name;
-
-    sectionFilters.appendChild(btnFilter);
-  }  
-
-  const btnsFilter = document.querySelectorAll("button");
-  let id;
-  for (let i = 0; i < btnsFilter.length; i++) {
-    const btn = btnsFilter[i];
- 
-    btn.addEventListener("click", (e) => {
-      const id = e.target.dataset.id;
-      const filteredProjects = projects.filter(function (project) {
-          return project.categoryId == id;
-      });
-
-      switch (id) {
-        case "1":
-          document.querySelector(".gallery").innerHTML = "";
-          generateCards(filteredProjects);
-          break;
-        case "2":
-          document.querySelector(".gallery").innerHTML = "";
-          generateCards(filteredProjects);
-          break
-        case "3":
-          document.querySelector(".gallery").innerHTML = "";
-          generateCards(filteredProjects);
-          break
-        default:
-          document.querySelector(".gallery").innerHTML = "";
-          generateCards(projects);
-      }
-})  }
-}
 
 // ========== GENERATION CARDS PROJECTS ========== //
 
@@ -84,6 +30,55 @@ const generateCards= (projects) => {
     }
 }
 
+// ========== CREATION FILTERS BUTTONS ========== //
+
+const generateBtnsFilter = async () => {
+  const res = await fetch("http://localhost:5678/api/categories");
+  const categories = await res.json();
+
+  const sectionFilters = document.querySelector(".btn-filters");
+  
+  const btnFilter = document.createElement("button");
+  btnFilter.className = "filter";
+  btnFilter.dataset.id = 0;
+  btnFilter.innerText = "Tous";
+  sectionFilters.appendChild(btnFilter);
+  
+  for (let i = 0; i < categories.length; i++) {
+    const filter = categories[i];
+    const btnFilter = document.createElement("button");
+    btnFilter.className = "filter";
+    btnFilter.dataset.id = filter.id;
+    btnFilter.innerText = filter.name;
+
+    sectionFilters.appendChild(btnFilter);
+  }  
+  projectsFilter()
+}
+
+// ========== FILTERS FUNCTION ========== //
+
+const projectsFilter = ()=>{
+  const btnsFilter = document.querySelectorAll("button");
+
+  btnsFilter.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const id = e.target.dataset.id;
+      let filteredProjects;
+
+      if (id === "0") {
+        filteredProjects = projects;
+      } else {
+        filteredProjects = projects.filter(
+          (project) => project.categoryId.toString() === id
+        );
+      }
+
+      document.querySelector(".gallery").innerHTML = "";
+      generateCards(filteredProjects);
+    });
+  });
+}
 generateBtnsFilter();
 generateCards(projects);
 

@@ -63,18 +63,24 @@
       </section>
       <section id="portfolio">
         <div class="projects-title">
-        <h2>Mes Projets</h2>
-        <a href="#modalGallery" class="edit-btn" >
+          <h2>Mes Projets</h2>
+         <a href="#modalGallery" class="edit-btn" >
             <i href="#modalGallery" class="fa-solid fa-pen-to-square"></i>modifier</a>
+          </div>
+          
           <aside id="modalGallery" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modalGalleryTitle" style="display: none;" >
             <div class="modal-wrapper modalStop">
+              <div class="modal-title">
                 <i class="fa-solid fa-xmark closeModal"></i>
                 <h3 id="modalGalleryTitle">Galerie photo</h3>
-                <div class="btn-container">
-                <input type="submit" value="Ajouter une photo" class="modal-input"/></div>
               </div>
+              <div class="edit-gallery"></div>
+                <div class="btn-container">
+                   <input type="submit" value="Ajouter une photo" class="modal-input"/>
+                </div>
+            </div>
           </aside>
-        </div>
+
         <div class="btn-filters"></div>
         <div class="gallery"></div>
       </section>

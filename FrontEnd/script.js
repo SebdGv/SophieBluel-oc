@@ -157,6 +157,30 @@ window.addEventListener('keyup', (e) => {
 
 // ==========  MODALS 01 = Gallery / delete project   ========== //
 
+const editGallery = (projects) => {
+  if (!projects || !projects.length) {
+    console.log("Aucun projet à afficher.");
+    return;
+  }
+  for (let i = 0; i < projects.length; i++) {
+    const project = projects[i];
+    const sectionProjects = document.querySelector(".edit-gallery");
+    
+    const viewProject = document.createElement("figure");
+    const imageProject = document.createElement("img");
+    const deleteProject = document.createElement("a");
+
+    imageProject.src = project.imageUrl;
+    deleteProject.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+
+    sectionProjects.appendChild(viewProject);
+    viewProject.appendChild(imageProject);
+    viewProject.appendChild(deleteProject);
+  }
+};
+
+editGallery(projects);
+
 
 
 // ==========  MODALS 02 = Create new Project  ========== //

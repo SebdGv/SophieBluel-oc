@@ -25,10 +25,10 @@ form.addEventListener("submit", async (e) => {
   let result = await res.json();
 
       if (result.token) {
-        localStorage.setItem("token", result.token);
+        sessionStorage.setItem("token", result.token);
         console.log("connectoin reussie");
         window.location.href = "index.html";
-
+       
       } else if (!result.token){
         spanError.classList.add("error");
         setTimeout(() => {

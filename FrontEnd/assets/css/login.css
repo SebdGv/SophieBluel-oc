@@ -7,6 +7,7 @@
     text-align: center;
 
 }
+
 #login h2 {
     margin-top: 150px;
     margin-bottom: 37px;
@@ -44,4 +45,8 @@
 .error{
     opacity: 1;
     color: red;
+}
+
+#login.login-selected{
+    font-weight: 600;
 }

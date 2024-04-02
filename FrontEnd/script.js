@@ -1,6 +1,10 @@
 const response = await fetch("http://localhost:5678/api/works");
 const projects = await response.json();
 
+const sectionFilters = document.querySelector(".btn-filters");
+let connected = false;
+
+
 // ========== GENERATION CARDS PROJECTS ========== //
 
 const generateCards= (projects) => {
@@ -85,3 +89,78 @@ generateCards(projects);
 
 // ========== Edition mode  ========== //
 
+const editBtn = document.querySelector('.edit-btn');
+
+
+const isConnected = () => {
+  if (sessionStorage.getItem("token")) {
+    connected = true;
+  }
+}
+const editPage = () => {
+
+  logout.addEventListener('click', () => {
+    sessionStorage.clear();
+    window.location.href = "index.html";
+    })
+
+  if (connected) {
+    editBanner.style.display = "flex";
+    editBtn.style.display = "flex";
+    sectionFilters.style.transform = "translateX(-3000px)";
+    login.style.display = "none";
+    logout.style.display = "flex";
+  }
+}
+isConnected();
+editPage();
+
+// ==========  MODALS  ========== //
+
+let modal = null;
+
+const openModal = (e) => {
+  e.preventDefault();
+  const target = document.querySelector(e.target.getAttribute('href'));
+  target.style.display = null;
+  target.removeAttribute('aria-hidden');
+  target.setAttribute('aria-modal', 'true')
+  modal = target;
+  modal.addEventListener('click', closeModal)
+  modal.querySelector(".closeModal").addEventListener('click', closeModal);
+  modal.querySelector(".modalStop").addEventListener('click', stopPropagation);
+}
+
+const closeModal = (e) => {
+  if (modal === null) return;
+    e.preventDefault();
+    modal.style.display = "none";
+    modal.setAttribute("aria-hidden", "true");
+    modal.removeAttribute("aria-modal");
+    modal.removeEventListener("click", closeModal);
+    modal.querySelector(".closeModal").removeEventListener("click", closeModal);
+    modal = null;
+}
+const stopPropagation = (e) => {
+  e.stopPropagation();
+}
+
+editBtn.addEventListener("click", openModal)
+
+window.addEventListener('keyup', (e) => {
+  if (e.key === "Escape" || e.key === "Esc") {
+    closeModal(e);
+    console.log(e, e.key);
+ }
+  
+})
+
+// ==========  MODALS 01 = Gallery / delete project   ========== //
+
+
+
+// ==========  MODALS 02 = Create new Project  ========== //
+
+
+
+// ==========  MODALS 03 = Validate  ========== //

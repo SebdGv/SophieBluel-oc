@@ -155,7 +155,7 @@ window.addEventListener('keyup', (e) => {
   
 })
 
-// ==========  MODALS 01 = Gallery / delete project   ========== //
+// ==========  MODALS 01 = Gallery   ========== //
 
 const editGallery = (projects) => {
   if (!projects || !projects.length) {
@@ -168,20 +168,42 @@ const editGallery = (projects) => {
     
     const viewProject = document.createElement("figure");
     const imageProject = document.createElement("img");
-    const deleteProject = document.createElement("a");
+    const deleteIcon = document.createElement("a");
 
     imageProject.src = project.imageUrl;
-    deleteProject.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
-
+    deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
+    deleteIcon.setAttribute("data-id", project.id);
+  
     sectionProjects.appendChild(viewProject);
     viewProject.appendChild(imageProject);
-    viewProject.appendChild(deleteProject);
+    viewProject.appendChild(deleteIcon);
   }
 };
 
 editGallery(projects);
 
+// ==========  MODALS 01 = Delete  ========== //
 
+const deleteProject = async (id) => {
+    const init = {
+      method: "DELETE",
+      headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer ' + sessionStorage.getItem("token")
+      }
+    };
+  await fetch(`http://localhost:5678/api/works/${id}`, init);
+
+
+}
+document.querySelectorAll(".fa-trash-can").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const icon = e.target.closest("[data-id]");
+    const projectId = icon.getAttribute("data-id");
+    deleteProject(projectId);
+  });
+});
 
 // ==========  MODALS 02 = Create new Project  ========== //
 

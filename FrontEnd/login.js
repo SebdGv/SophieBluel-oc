@@ -20,21 +20,28 @@ form.addEventListener("submit", async (e) => {
     },
     body: JSON.stringify(data),
   };
+  try {
+  
+    let res = await fetch("http://localhost:5678/api/users/login", init);
+    
+    if (!res.ok) {
+      throw new Error(`Erreur HTTP, status = ${res.status}`);
+    }
 
-  let res = await fetch("http://localhost:5678/api/users/login", init);
-  let result = await res.json();
-
-      if (result.token) {
-        sessionStorage.setItem("token", result.token);
-        console.log("connectoin reussie");
-        window.location.href = "index.html";
-       
-      } else if (!result.token){
-        spanError.classList.add("error");
-        setTimeout(() => {
-          spanError.classList.remove("error");
-        }, 4000);
-  }
+    let result = await res.json();
+  
+    if (result.token) {
+      sessionStorage.setItem("token", result.token);
+      window.location.href = "index.html";
+    } 
+  } catch (error) {
+      spanError.textContent = "Erreur dans l’identifiant ou le mot de passe";
+      spanError.classList.add("error");
+      setTimeout(() => {
+        spanError.classList.remove("error");
+      }, 4000);
+    }
+  
 });
 
 

@@ -43,6 +43,7 @@
     opacity: 0;
 }
 .error{
+    content: "";
     opacity: 1;
     color: red;
 }

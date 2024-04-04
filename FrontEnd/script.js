@@ -119,7 +119,7 @@ const openModal = (e, selector) => {
   if (modal) {
     closeModal(null, false);
   }
-  // const targetSelector = selector || e.target.getAttribute("href");
+
   const target = document.querySelector(selector);
 
   target.style.display = null;
@@ -201,7 +201,6 @@ const deleteProject = async (id) => {
 };
 document.querySelectorAll(".fa-trash-can").forEach((btn) => {
   btn.addEventListener("click", (e) => {
-    e.preventDefault();
     e.stopPropagation();
     const projectId = e.target.closest("[data-id]").getAttribute("data-id");
     deleteProject(projectId);

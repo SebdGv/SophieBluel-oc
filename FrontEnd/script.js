@@ -209,53 +209,92 @@ document.querySelectorAll(".fa-trash-can").forEach((btn) => {
 
 // ==========  MODALS 02 = Create new Project  ========== //
 
-formNewProject.addEventListener("submit", async (e) => {
-  e.preventDefault();
+const previewContainer = document.querySelector(".preview-container");
+const fichierInput = document.getElementById("addPicJoin");
+let title = document.getElementById("addTitle");
+let titleFilled = "";
+// Preview image display
 
-  const fichierInput = document.getElementById("addPicJoin");
-  let fichier;
-  if (fichierInput.files.length > 0) {
-    fichier = fichierInput.files[0];
-    console.log(fichier.name);
-  }
+fichierInput.addEventListener("change", function () {
+  if (this.files && this.files[0]) {
+    var reader = new FileReader();
 
-  let title = document.getElementById("addTitle").value;
-  console.log(title);
+    reader.onload = function (e) {
+      previewImage.src = e.target.result;
+      previewImage.style.display = "block";
+      previewContainer.style.display = "none";
+    };
 
-  let categorySelect = document.getElementById("categorySelect");
-  let categoryId = categorySelect.value;
-  console.log(categoryId);
-
-  let formData = new FormData();
-
-  if (fichier) {
-    formData.append("image", fichier);
-  }
-  formData.append("title", title);
-  formData.append("category", categoryId);
-
-  const initPic = {
-    method: "POST",
-    headers: {
-      accept: "application/json",
-      Authorization: "Bearer " + sessionStorage.getItem("token"),
-    },
-    body: formData,
-  };
-  try {
-    const res = await fetch("http://localhost:5678/api/works", initPic);
-
-    if (!res.ok) {
-      throw new Error(`Erreur HTTP, status = ${res.status}`);
-    }
-
-    const result = await res.json();
-    console.log(result);
-
-    if (result.token) {
-      sessionStorage.setItem("token", result.token);
-    }
-  } catch (error) {
-    console.error("Erreur lors de l'envoi du formulaire :", error);
+    reader.readAsDataURL(this.files[0]);
   }
 });
+// validate button
+const checkInput = () => {
+  title.addEventListener("keypress", (e) => {
+    titleFilled = e.target.value;
+    console.log(titleFilled);
+    if (titleFilled != "" && fichierInput.files.length > 0) {
+      modalValidateBtn.style.background = "red";
+    }
+  });
+};
+checkInput();
+//Change upload image
+previewImage.addEventListener("click", function () {
+  fichierInput.click();
+});
+
+const sendProject = () => {
+  formNewProject.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    let fichier;
+    if (fichierInput.files.length > 0) {
+      fichier = fichierInput.files[0];
+    } else if (fichierInput.files.length === 0) {
+      console.log(erreur);
+      return;
+    }
+
+    title = title.value;
+    if (!title) {
+      return;
+    }
+
+    let categorySelect = document.getElementById("categorySelect");
+    let categoryId = categorySelect.value;
+
+    let formData = new FormData();
+    if (fichier) {
+      formData.append("image", fichier);
+    }
+    formData.append("title", title);
+    formData.append("category", categoryId);
+
+    const initPic = {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+      body: formData,
+    };
+    try {
+      const res = await fetch("http://localhost:5678/api/works", initPic);
+
+      if (!res.ok) {
+        throw new Error(`Erreur HTTP, status = ${res.status}`);
+      }
+
+      const result = await res.json();
+      console.log(result);
+
+      if (result.token) {
+        sessionStorage.setItem("token", result.token);
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'envoi du formulaire :", error);
+    }
+  });
+};
+sendProject();

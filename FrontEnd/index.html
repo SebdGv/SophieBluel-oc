@@ -20,6 +20,7 @@
     />
     <link rel="stylesheet" href="./assets/style.css" />
     <link rel="stylesheet" href="./assets/css/modal.css" />
+    <link rel="stylesheet" href="./assets/css/login.css" />
   </head>
   <body>
     <div class="editBanner" id="editBanner">
@@ -133,18 +134,27 @@
                 </div>
                 <form action="#" method="post" id="formNewProject">
                   <div class="add-pic">
-                    <i class="fa-regular fa-image" aria-hidden="true"></i>
-                    <label for="addPicJoin" class="addPic" id="addPicLabel"
-                      >+ Ajouter photo</label
-                    >
-                    <input
-                      type="file"
-                      name="addPic"
-                      class="addPic"
-                      id="addPicJoin"
-                      accept=".png, .jpeg"
+                    <div class="preview-container">
+                      <i class="fa-regular fa-image" aria-hidden="true"></i>
+                      <label for="addPicJoin" class="addPic" id="addPicLabel"
+                        >+ Ajouter photo</label
+                      >
+                      <input
+                        type="file"
+                        name="addPic"
+                        class="addPic"
+                        id="addPicJoin"
+                        accept=".png, .jpeg"
+                      />
+                      <p>jpg, png : 4mo max</p>
+                    </div>
+                    <img
+                      id="previewImage"
+                      class="image-preview"
+                      src=""
+                      alt="Image preview"
+                      style="display: none"
                     />
-                    <p>jpg, png : 4mo max</p>
                   </div>
                   <label for="title">Titre</label>
                   <input type="text" name="title" id="addTitle" />
@@ -156,12 +166,13 @@
                       Hotels & restaurants
                     </option>
                   </select>
+                  <div class="hidden-error" id="error"></div>
                   <div class="btn-border">
                     <div class="btn-container">
                       <input
                         type="submit"
                         value="Valider"
-                        class="modal-input"
+                        class="modal-input validate-btn"
                         id="modalValidateBtn"
                       />
                     </div>

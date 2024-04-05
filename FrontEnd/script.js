@@ -234,7 +234,8 @@ const checkInput = () => {
     titleFilled = e.target.value;
     console.log(titleFilled);
     if (titleFilled != "" && fichierInput.files.length > 0) {
-      modalValidateBtn.style.background = "red";
+      modalValidateBtn.style.background = "var(--titleGreen)";
+      spanError.textContent = "";
     }
   });
 };
@@ -243,7 +244,7 @@ checkInput();
 previewImage.addEventListener("click", function () {
   fichierInput.click();
 });
-
+const spanError = document.getElementById("error");
 const sendProject = () => {
   formNewProject.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -252,12 +253,16 @@ const sendProject = () => {
     if (fichierInput.files.length > 0) {
       fichier = fichierInput.files[0];
     } else if (fichierInput.files.length === 0) {
+      spanError.textContent = "Ajoutez un fichier";
+      spanError.classList.add("error");
       console.log(erreur);
       return;
     }
 
     title = title.value;
     if (!title) {
+      spanError.textContent = "Ajoutez un titre";
+      spanError.classList.add("error");
       return;
     }
 

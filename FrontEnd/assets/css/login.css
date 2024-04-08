@@ -48,6 +48,6 @@
     color: red;
 }
 
-#login.login-selected{
+.login-selected{
     font-weight: 600;
 }

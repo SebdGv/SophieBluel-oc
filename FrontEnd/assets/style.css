@@ -9,6 +9,7 @@
 	--background:#FFFEF8;
 	--textColor: #3D3D3D;
 	--titleGreen: #1D6154;
+	--darkGreen:#0E2F28;
 	--logoColor: #B1663C;
 	--subtitleLogo: #93532F;
 	--lightBlue:#E8F1F6;
@@ -130,12 +131,12 @@ nav li {
 }
 
 li:hover{
-	color: var(--logoColor);
+	font-weight: 700;
 }
 
 .active{
-	font-weight: 800;
-	background: teal;
+	color: var(--white);
+	background: var(--titleGreen);
 }
 
 a{
@@ -212,7 +213,7 @@ button{
 	transition: 0.20s ease-in-out;
 	cursor: pointer;
 }
-button:hover, .active{
+button:hover{
 	background-color: var(--titleGreen);
 	color: var(--white);
 }
@@ -289,6 +290,9 @@ input[type="submit"] {
 	text-align: center;
 	border-radius: 60px;
 	cursor: pointer;
+}
+input[type="submit"]:hover{
+	background: var(--darkGreen);
 }
 footer{
 	background: var(--white);

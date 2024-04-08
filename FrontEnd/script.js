@@ -44,6 +44,7 @@ const generateBtnsFilter = async () => {
   btnFilter.className = "filter";
   btnFilter.dataset.id = 0;
   btnFilter.innerText = "Tous";
+  btnFilter.classList.add("active");
   sectionFilters.appendChild(btnFilter);
 
   for (let i = 0; i < categories.length; i++) {
@@ -65,6 +66,12 @@ const projectsFilter = () => {
 
   btnsFilter.forEach((btn) => {
     btn.addEventListener("click", (e) => {
+      // Ajouter class active au clique
+      btnsFilter.forEach((otherBtn) => {
+        otherBtn.classList.remove("active");
+      });
+      e.target.classList.add("active");
+
       const id = e.target.dataset.id;
       let filteredProjects;
 
@@ -116,9 +123,7 @@ let modal = null;
 
 const openModal = (e, selector) => {
   e.preventDefault();
-  // if (modal) {
-  //   closeModal(null, false);
-  // }
+
   const target = document.querySelector(selector);
 
   target.style.display = null;
@@ -233,9 +238,10 @@ const previewContainer = document.querySelector(".preview-container");
 const fichierInput = document.getElementById("addPicJoin");
 let title = document.getElementById("addTitle");
 
+// change color background modal input
 const updateValidateBtn = () => {
   if (title.value.trim() !== "" && fichierInput.files.length > 0) {
-    modalValidateBtn.style.background = "var(--titleGreen)";
+    modalValidateBtn.classList.add("modal-hover");
     spanError.textContent = "";
   }
 };
@@ -257,8 +263,8 @@ fichierInput.addEventListener("change", function () {
 });
 
 title.addEventListener("input", updateValidateBtn);
-//Change upload image
 
+//Change upload image
 previewImage.addEventListener("click", function () {
   fichierInput.click();
 });

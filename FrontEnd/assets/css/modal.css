@@ -27,7 +27,7 @@ h3{
 .modal-content{
     padding: 0 50px;
 }
-
+/* modal navigation */
 .modal-nav{
     display: flex;
     justify-content: space-between;
@@ -39,15 +39,20 @@ h3{
     cursor: pointer;
 }
 
-.hidden{
+.fa-solid.fa-arrow-left{
     transform: translateX(-3000px);
+}
+
+.hidden{  /*hidding modals*/
+    display: none;
 }
 
 .modal-title{
     display: flex;
     justify-content: center;
 }
-.btn-container{
+
+.btn-container{ /* validation btn modals*/
     display:flex;
     justify-content: center;
 }
@@ -100,7 +105,7 @@ h3{
 
 /* Modal ADD Picture */
 
-#modalAddProject form{
+.modal form{
         text-align: left;
         margin-top: 30px;
         display: flex;
@@ -117,7 +122,7 @@ h3{
     justify-content: center;
     align-items: center;
 }
-
+/* image preview in modal*/
 .preview-container{
 display: flex;
 flex-direction: column;
@@ -130,16 +135,15 @@ align-items: center;
     cursor: pointer;
 }
 
-
-
 .fa-regular.fa-image{
     color: var(--lightGrey);
     font-size: 68px;
 }
-
+ 
+/* ADD files container */
 
 label.addPic{
-background: var(--lightGrey);
+    background: var(--lightGrey);
     min-width: 173px;
     min-height: 36px;
     border-radius: 50px;

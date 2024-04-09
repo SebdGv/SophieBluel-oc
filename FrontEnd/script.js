@@ -2,18 +2,26 @@ const response = await fetch("http://localhost:5678/api/works");
 const projects = await response.json();
 
 const sectionFilters = document.querySelector(".btn-filters");
+const sectionProjects = document.querySelector(".gallery");
 let connected = false;
 
 // ========== GENERATION CARDS PROJECTS ========== //
+// creer une fonction pour vider cards
+const removeCards = () => {
+  while (sectionProjects.firstChild) {
+    sectionProjects.removeChild(sectionProjects.firstChild);
+  }
+};
 
 const generateCards = (projects) => {
   if (!projects || !projects.length) {
     console.log("Aucun projet à afficher.");
     return;
   }
+  removeCards();
+
   for (let i = 0; i < projects.length; i++) {
     const project = projects[i];
-    const sectionProjects = document.querySelector(".gallery");
 
     const viewProject = document.createElement("figure");
 
@@ -135,7 +143,7 @@ const openModal = (e, selector) => {
   modal.querySelector(".modalStop").addEventListener("click", stopPropagation);
 };
 
-const closeModal = () => {
+const closeModal = async () => {
   if (modal === null) return;
   modal.style.display = "none";
   modal.setAttribute("aria-hidden", "true");
@@ -143,7 +151,20 @@ const closeModal = () => {
   modal.removeEventListener("click", closeModal);
   modal.querySelector(".closeModal").removeEventListener("click", closeModal);
   modal = null;
-  location.reload();
+  // New call to update without reload
+
+  try {
+    const response = await fetch("http://localhost:5678/api/works");
+    const updatedProjects = await response.json();
+
+    // Génération à nouveau des cards avec les données à jour
+    generateCards(updatedProjects);
+  } catch (error) {
+    console.error(
+      "Erreur lors de la récupération des projets à jour : ",
+      error
+    );
+  }
 };
 
 const stopPropagation = (e) => {
@@ -157,7 +178,10 @@ const leftArrow = document.querySelector(".fa-arrow-left");
 
 editBtn.addEventListener("click", (e) => {
   openModal(e, "#modalGallery");
+
   modalListImage.classList.remove("hidden");
+  modalAddImage.classList.add("hidden");
+  leftArrow.style.transform = "translateX(-3000px)";
 });
 
 addPictureBtn.addEventListener("click", (e) => {
@@ -179,11 +203,19 @@ window.addEventListener("keyup", (e) => {
 });
 // ==========  MODALS 01 = Gallery   ========== //
 
+const removeEditGallery = () => {
+  const editGallery = document.querySelector(".edit-gallery");
+  while (editGallery.firstChild) {
+    editGallery.removeChild(editGallery.firstChild);
+  }
+};
+
 const editGallery = (projects) => {
   if (!projects || !projects.length) {
     console.log("Aucun projet à afficher.");
     return;
   }
+  removeEditGallery();
   for (let i = 0; i < projects.length; i++) {
     const project = projects[i];
     const sectionProjects = document.querySelector(".edit-gallery");
@@ -196,12 +228,32 @@ const editGallery = (projects) => {
     deleteIcon.innerHTML = `<i class="fa-solid fa-trash-can"></i>`;
     deleteIcon.setAttribute("data-id", project.id);
 
+    deleteIcon.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const projectId = e.target.closest("[data-id]").getAttribute("data-id");
+      deleteProject(projectId);
+    });
+
     sectionProjects.appendChild(viewProject);
     viewProject.appendChild(imageProject);
     viewProject.appendChild(deleteIcon);
   }
 };
+const updateEditGallery = async () => {
+  try {
+    const response = await fetch("http://localhost:5678/api/works");
+    const updatedProjects = await response.json();
 
+    // Nettoyez la modal EditGallery avant de générer son contenu
+    removeEditGallery();
+
+    // Générer le contenu de la modal EditGallery avec les données à jour
+    editGallery(updatedProjects);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des projets à jour :", error);
+  }
+};
 editGallery(projects);
 
 // ==========  MODALS 01 = Delete  ========== //
@@ -216,9 +268,8 @@ const deleteProject = async (id) => {
   };
   const response = await fetch(`http://localhost:5678/api/works/${id}`, init);
   if (response.ok) {
-    document
-      .querySelector(`[data-id="${id}"]`)
-      .closest("figure").style.display = "none";
+    document;
+    updateEditGallery();
   } else {
     console.error("Erreur lors de la suppression du projet");
   }
@@ -240,11 +291,13 @@ let title = document.getElementById("addTitle");
 
 // change color background modal input
 const updateValidateBtn = () => {
+  modalValidateBtn.classList.add("disable");
   if (title.value.trim() !== "" && fichierInput.files.length > 0) {
-    modalValidateBtn.classList.add("modal-hover");
+    modalValidateBtn.classList.remove("disable");
     spanError.textContent = "";
   }
 };
+updateValidateBtn();
 
 // Preview image display
 fichierInput.addEventListener("change", function () {
@@ -316,14 +369,8 @@ const sendProject = () => {
         throw new Error(`Erreur HTTP, status = ${res.status}`);
       }
 
-      const result = await res.json();
       closeModal();
-
-      console.log(result);
-
-      if (result.token) {
-        sessionStorage.setItem("token", result.token);
-      }
+      updateEditGallery();
     } catch (error) {
       console.error("Erreur lors de l'envoi du formulaire :", error);
     }

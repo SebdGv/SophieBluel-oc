@@ -74,14 +74,9 @@ h3{
     background: var(--white);
 }
 /* Change background color of modal input */
-.modal-input.validate-btn{
+.modal-input.validate-btn.disable{
     background: var(--grey);
-}
-.modal-input.validate-btn.modal-hover{
-    background: var(--titleGreen);
-}
-.modal-input.validate-btn.modal-hover:hover{
-    background: var(--darkGreen);
+    cursor:auto;
 }
 
 .edit-gallery {
